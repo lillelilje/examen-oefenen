@@ -1021,6 +1021,13 @@ h1 span {
 }
 
 @media (max-width: 720px) {
+  /* iOS Safari zoomt de pagina in bij een veld met tekst kleiner dan 16px. */
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
+
   .header-inner {
     align-items: flex-start;
     flex-direction: column;
