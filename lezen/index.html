@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lezen A2 ExamenSimulatie</title>
+  <meta name="description" content="Oefenexamen Lezen A2 (inburgering): 25 meerkeuzevragen over negen teksten, 65 minuten, op de computer. Met uitleg per antwoord.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a class="back-link" href="../">Alle examens</a>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <span class="brand-mark">A2</span>
+        <div>
+          <strong>Lezen</strong>
+          <small>Inburgeringsexamen · op de computer</small>
+        </div>
+      </div>
+      <div class="header-meta">25 vragen · 65 minuten · 18/25 nodig</div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ── Start ─────────────────────────────────────────────────── -->
+    <section id="screen-start" class="screen">
+      <div class="hero">
+        <p class="eyebrow">Lezen A2 · onderdeel van het inburgeringsexamen</p>
+        <h1>Lees en antwoord zoals het <span>echt</span> gaat</h1>
+        <p class="lead">
+          Eén moeilijk oefenexamen: negen korte teksten en 25 meerkeuzevragen in
+          65 minuten. Je leest de tekst en beantwoordt de vragen ernaast. Geen
+          woordenboek en geen feedback tot je inlevert, precies zoals op het
+          examen.
+        </p>
+        <button id="btn-start" class="btn primary big" type="button">Start het examen</button>
+        <p class="tiny">25 vragen over <span id="text-count">…</span> teksten · Je ziet je score pas na het nakijken.</p>
+      </div>
+
+      <div class="facts">
+        <div class="fact"><strong>25</strong><span>meerkeuzevragen</span></div>
+        <div class="fact"><strong>65</strong><span>minuten</span></div>
+        <div class="fact"><strong>18</strong><span>goed om te slagen</span></div>
+        <div class="fact"><strong>A2</strong><span>taalniveau</span></div>
+      </div>
+
+      <div class="start-grid">
+        <section class="panel">
+          <h2>Wat voor teksten krijg je?</h2>
+          <ul class="theme-list" id="soort-list"></ul>
+        </section>
+
+        <section class="panel">
+          <h2>Zo werkt deze simulatie</h2>
+          <ul>
+            <li>Eén tekst per scherm, met twee tot vier vragen ernaast.</li>
+            <li>Elke vraag heeft drie antwoorden: A, B of C.</li>
+            <li>Je kunt teksten overslaan en later teruggaan.</li>
+            <li>Na 65 minuten wordt het examen automatisch ingeleverd.</li>
+            <li>Daarna zie je je score, je zwakste teksten en uitleg per vraag.</li>
+          </ul>
+          <p class="note">
+            Het echte examen maakt u op de computer. Deze simulatie lijkt daarop:
+            de tekst staat links en de vragen rechts. De teksten zijn langer dan
+            gemiddeld en de foute antwoorden lijken soms op het juiste antwoord.
+            Geen echte examenvragen: alles is zelf geschreven in dezelfde vorm.
+          </p>
+        </section>
+      </div>
+    </section>
+
+    <!-- ── Examen ────────────────────────────────────────────────── -->
+    <section id="screen-exam" class="screen hidden">
+      <div class="exam-shell">
+        <div class="exam-top">
+          <div class="timer-wrap">
+            <span class="timer-label">Tijd</span>
+            <strong id="timer">65:00</strong>
+          </div>
+          <div class="exam-progress">
+            <span><strong id="answered-count">0</strong> van 25 vragen beantwoord</span>
+            <div class="progressbar"><div id="progress-fill"></div></div>
+          </div>
+          <button id="btn-submit-top" class="btn ghost" type="button">Inleveren</button>
+        </div>
+
+        <div class="reading-layout">
+          <section class="panel text-card">
+            <div class="question-meta">
+              <span id="text-meta"></span>
+              <span id="text-counter"></span>
+            </div>
+            <p id="text-situation" class="text-situation"></p>
+            <h2 id="text-title"></h2>
+            <div id="text-body" class="text-body"></div>
+          </section>
+
+          <section id="questions" class="reading-questions" aria-label="Vragen bij deze tekst"></section>
+        </div>
+
+        <div class="exam-nav">
+          <button id="btn-prev" class="btn" type="button">← Vorige tekst</button>
+          <button id="btn-next" class="btn primary" type="button">Volgende tekst →</button>
+        </div>
+
+        <details class="overview">
+          <summary>Tekstoverzicht</summary>
+          <div id="navigator" class="navigator"></div>
+        </details>
+      </div>
+    </section>
+
+    <!-- ── Resultaat ─────────────────────────────────────────────── -->
+    <section id="screen-result" class="screen hidden">
+      <div class="result-shell">
+        <div class="result-hero">
+          <div id="verdict" class="verdict">GEZAKT</div>
+          <div id="score" class="score">0 / 25</div>
+          <p id="result-line"></p>
+          <div id="result-stats" class="result-stats"></div>
+        </div>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Per tekst</h2>
+            <span class="hint">Zwakste eerst</span>
+          </div>
+          <div id="text-stats" class="theme-stats"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Extra hulp</h2>
+            <span class="hint">5 dagen, 15 minuten per dag</span>
+          </div>
+          <p class="note">
+            Laat een plan maken van je eigen fouten: wat je per dag oefent, met je
+            eigen vragen en de antwoorden onderaan. Dat is één eenheid nakijktegoed.
+            Nog geen tegoed? Dat is €20 voor 30 dagen, 40 keer nakijken.
+          </p>
+          <input id="lic-key" class="lic-input" type="password" autocomplete="off"
+            spellcheck="false" placeholder="Licentiesleutel">
+          <button id="btn-plan" class="btn primary" type="button">Maak een 5-daags plan</button>
+          <p id="plan-status" class="tiny" role="status"></p>
+          <pre id="plan-out" class="answer-text hidden"></pre>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Antwoorden en uitleg</h2>
+            <label class="toggle">
+              <input type="checkbox" id="only-wrong">
+              Alleen fouten
+            </label>
+          </div>
+          <div id="review-list" class="review-list"></div>
+        </section>
+
+        <div class="result-actions">
+          <button id="btn-retry" class="btn primary big" type="button">Nieuw examen</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      Oefentool, geen officieel DUO-examen. Gebaseerd op de examenopzet van
+      inburgeren.nl (25 meerkeuzevragen, 65 minuten, op de computer) en de vorm van
+      de officiële oefenexamens Lezen A2. Bronnen en toelichting staan in README.md.
+    </p>
+  </footer>
+
+  <script src="ai.js"></script>
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

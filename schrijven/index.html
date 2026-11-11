@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Schrijven A2 ExamenSimulatie</title>
+  <meta name="description" content="Oefenexamen Schrijven A2 (inburgering): 4 opdrachten, 40 minuten, beoordeling met het officiële beoordelingsmodel van DUO. Exporteer je antwoorden als JSON voor een LLM-analyse.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a class="back-link" href="../">Alle examens</a>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <span class="brand-mark">A2</span>
+        <div>
+          <strong>Schrijven</strong>
+          <small>Inburgeringsexamen · pen en papier</small>
+        </div>
+      </div>
+      <div class="header-meta">4 opdrachten · 40 minuten · 37 punten</div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ── Start ─────────────────────────────────────────────────── -->
+    <section id="screen-start" class="screen">
+      <div class="hero">
+        <p class="eyebrow">Schrijven A2 · onderdeel van het inburgeringsexamen</p>
+        <h1>Oefen je schrijftoets zoals het <span>echt</span> gaat</h1>
+        <p class="lead">
+          Vier opdrachten in veertig minuten: een formulier, een e-mail, een korte
+          tekst en een briefje. Je typt je antwoorden, of je print het antwoordenblad
+          en schrijft met de hand. Daarna beoordeel je je werk met het officiële
+          beoordelingsmodel van DUO. Geen feedback tijdens het schrijven, precies
+          zoals op het examen.
+        </p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px">
+          <button id="btn-start" class="btn primary big" type="button">Start het examen</button>
+          <button id="btn-start-paper" class="btn ghost big" type="button">Print &amp; start op papier</button>
+          <button id="btn-start-hard" class="btn ghost big" type="button">Het vaste moeilijke examen</button>
+        </div>
+        <p class="tiny">
+          Het eerste examen trekt vier opdrachten uit een bank van <span id="bank-size">…</span>.
+          Het tweede is altijd hetzelfde: <span id="hard-exam-name">…</span>, met dezelfde vorm
+          als de officiële oefenexamens en meer punten per opdracht. Je ziet je score pas na
+          het nakijken.
+        </p>
+      </div>
+
+      <div class="facts">
+        <div class="fact"><strong>4</strong><span>schrijfopdrachten</span></div>
+        <div class="fact"><strong>40</strong><span>minuten</span></div>
+        <div class="fact"><strong>37</strong><span>punten te halen</span></div>
+        <div class="fact"><strong>A2</strong><span>taalniveau</span></div>
+      </div>
+
+      <div class="start-grid">
+        <section class="panel">
+          <h2>De vier opdrachtsoorten</h2>
+          <ul class="theme-list" id="type-list"></ul>
+        </section>
+
+        <section class="panel">
+          <h2>Zo werkt deze simulatie</h2>
+          <ul>
+            <li>Elke ronde: één formulier, één e-mail, één korte tekst, één briefje.</li>
+            <li>Je hebt 40 minuten. Daarna wordt je werk automatisch ingeleverd.</li>
+            <li>Je ziet geen beoordeling tijdens het schrijven.</li>
+            <li>Na inleveren laat je een LLM nakijken met de officiële rubric, of je beoordeelt zelf.</li>
+            <li>Daarna download je één JSON-bestand met al je antwoorden en scores.</li>
+          </ul>
+          <p class="note">
+            Het echte examen maak je met pen op papier; je krijgt de pen van DUO.
+            Hier typ je. Dat is makkelijker dan schrijven, dus oefen je handschrift
+            en je tempo ook op papier. Deze opdrachten zijn zelf geschreven in de
+            stijl van de drie officiële oefenexamens, geen echte examenvragen.
+          </p>
+        </section>
+      </div>
+    </section>
+
+    <!-- ── Examen ────────────────────────────────────────────────── -->
+    <section id="screen-exam" class="screen hidden">
+      <div class="exam-shell">
+        <p id="paper-banner" class="paper-banner hidden">
+          Papier-modus: schrijf op het geprinte blad. De timer loopt. Daarna voer
+          je je antwoorden hier in.
+        </p>
+        <div class="exam-top">
+          <div class="timer-wrap">
+            <span class="timer-label">Tijd</span>
+            <strong id="timer">40:00</strong>
+          </div>
+          <div class="exam-progress">
+            <span><strong id="answered-count">0</strong> van 4 opdrachten klaar</span>
+            <div class="progressbar"><div id="progress-fill"></div></div>
+          </div>
+          <button id="btn-submit-top" class="btn ghost" type="button">Inleveren</button>
+        </div>
+
+        <div class="task-card" id="task-card">
+          <div class="question-meta">
+            <span id="task-type"></span>
+            <span id="task-count"></span>
+          </div>
+          <h2 id="task-title"></h2>
+          <p id="task-situation" class="task-situation"></p>
+          <p id="task-instruction" class="task-instruction"></p>
+          <ul id="task-points" class="task-points"></ul>
+          <div id="task-input" class="task-input"></div>
+          <p id="task-meter" class="task-meter"></p>
+        </div>
+
+        <div class="exam-nav">
+          <button id="btn-prev" class="btn" type="button">← Vorige</button>
+          <span id="task-counter" class="q-counter"></span>
+          <button id="btn-next" class="btn primary" type="button">Volgende →</button>
+        </div>
+
+        <details class="overview">
+          <summary>Opdrachtenoverzicht</summary>
+          <div id="navigator" class="navigator"></div>
+        </details>
+      </div>
+    </section>
+
+    <!-- ── Nakijken ──────────────────────────────────────────────── -->
+    <section id="screen-check" class="screen hidden">
+      <div class="result-shell">
+        <section class="panel llm-panel">
+          <div class="panel-head">
+            <h2>Nakijken</h2>
+            <span class="hint">Met de officiële rubric</span>
+          </div>
+          <p class="note">
+            Beide routes vullen dezelfde scorekaarten hieronder. Daarna kun je elke score
+            nog met de hand bijstellen.
+          </p>
+
+          <div class="llm-block">
+            <h3>1. Automatisch nakijken</h3>
+            <p class="llm-help">
+              Met een licentiesleutel laat je nakijken met nakijktegoed: 30 dagen,
+              geen sleutel nodig. Zonder licentie gebruik je je eigen DeepSeek-sleutel;
+              die blijft in deze browser en gaat alleen naar api.deepseek.com.
+            </p>
+            <div class="llm-key-row">
+              <input id="lic-key" type="password" autocomplete="off" spellcheck="false"
+                placeholder="Licentiesleutel (30 dagen nakijktegoed)">
+            </div>
+            <div class="llm-key-row">
+              <input id="ds-key" type="password" autocomplete="off" spellcheck="false"
+                placeholder="sk-… (DeepSeek API-sleutel)">
+              <button id="btn-ds-forget" class="btn ghost" type="button">Vergeet sleutel</button>
+            </div>
+            <div class="export-actions">
+              <button id="btn-ds-score" class="btn primary" type="button">Laat nakijken</button>
+            </div>
+            <p id="ds-status" class="tiny" role="status"></p>
+          </div>
+
+          <div class="llm-block">
+            <h3>2. Of handmatig: kopieer de opdracht</h3>
+            <ol class="llm-steps">
+              <li>Klik op <b>Kopieer LLM-opdracht</b> en plak de tekst in ChatGPT, Claude of een andere LLM.</li>
+              <li>De LLM krijgt je antwoorden, de officiële rubric en de regels, en stuurt alleen JSON terug.</li>
+              <li>Plak die JSON hieronder en klik op <b>Verwerk scores</b>.</li>
+            </ol>
+            <div class="export-actions">
+              <button id="btn-llm-copy" class="btn" type="button">Kopieer LLM-opdracht</button>
+              <button id="btn-llm-apply" class="btn" type="button">Verwerk scores</button>
+            </div>
+            <details id="llm-manual" class="llm-manual hidden">
+              <summary>Handmatig kopiëren (als het klembord niet werkt)</summary>
+              <textarea id="llm-prompt" class="llm-paste" rows="8" readonly></textarea>
+            </details>
+            <label class="note-label">Antwoord van de LLM (JSON)
+              <textarea id="llm-input" class="llm-paste" rows="5" spellcheck="false"
+                placeholder='{"scores":[{"id":"mail-01","criteria":{"adequaatheid":2},"eisen":[true,true,false]}]}'></textarea>
+            </label>
+            <p id="llm-status" class="tiny" role="status"></p>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Of beoordeel zelf</h2>
+            <span class="hint" id="check-total">0 / 37 punten</span>
+          </div>
+          <p class="note">
+            Vink af wat je echt hebt gedaan en geef per criterium een score, net als
+            een beoordelaar van DUO. Wees streng: een schatting die te hoog is, helpt
+            je niet. De LLM hierboven vult deze kaarten alvast in.
+          </p>
+        </section>
+        <div id="check-list" class="check-list"></div>
+        <div class="result-actions">
+          <button id="btn-to-result" class="btn primary big" type="button">Bekijk resultaat →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Resultaat ─────────────────────────────────────────────── -->
+    <section id="screen-result" class="screen hidden">
+      <div class="result-shell">
+        <div class="result-hero">
+          <div id="verdict" class="verdict">SCHATTING</div>
+          <div id="score" class="score">0 / 37</div>
+          <p id="result-line"></p>
+          <div id="result-stats" class="result-stats"></div>
+          <p class="note">
+            Deze score is voor getypt werk. Op het echte examen schrijf je met de hand,
+            zonder spellcheck; daar kan je score lager uitvallen.
+          </p>
+        </div>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Per criterium</h2>
+            <span class="hint">Zwakste eerst</span>
+          </div>
+          <div id="criterion-stats" class="theme-stats"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Per opdracht</h2>
+            <span class="hint">Punten en eisen</span>
+          </div>
+          <div id="task-scores" class="theme-stats"></div>
+        </section>
+
+        <section class="panel learn-panel">
+          <div class="panel-head">
+            <h2>Leren van deze poging</h2>
+            <span class="hint">5 dagen, 15 minuten per dag</span>
+          </div>
+          <p class="note">
+            <b>Maak een 5-daags plan</b> laat de AI je duurste fouten over vijf dagen
+            verdelen, met je eigen zinnen en de antwoorden onderaan. Dat is één eenheid
+            nakijktegoed, of je eigen DeepSeek-sleutel.
+          </p>
+          <div class="export-actions">
+            <button id="btn-plan" class="btn primary" type="button">Maak een 5-daags plan</button>
+          </div>
+          <p id="plan-status" class="tiny" role="status"></p>
+          <pre id="plan-out" class="answer-text hidden"></pre>
+          <p class="note">
+            <b>Kopieer leeropdracht</b> geeft dezelfde analyse als opdracht voor je eigen
+            LLM, gratis. Denkt de LLM dat een score niet klopt? Dan eindigt het antwoord
+            met een JSON-blok: klik op <b>Scores aanpassen</b>, plak dat blok in
+            "Antwoord van de LLM" en de score wordt bijgesteld.
+          </p>
+          <div class="export-actions">
+            <button id="btn-learn-copy" class="btn" type="button">Kopieer leeropdracht</button>
+          </div>
+          <details id="learn-manual" class="llm-manual hidden">
+            <summary>Handmatig kopiëren (als het klembord niet werkt)</summary>
+            <textarea id="learn-prompt" class="llm-paste" rows="8" readonly></textarea>
+          </details>
+          <p id="learn-status" class="tiny" role="status"></p>
+        </section>
+
+        <section class="panel export-panel">
+          <div class="panel-head">
+            <h2>JSON voor je LLM</h2>
+            <span class="hint">Antwoorden + scores + rubric</span>
+          </div>
+          <p class="note">
+            Download het bestand en geef het aan een LLM met de vraag: welke
+            focusgebieden moet ik oefenen? Het bestand bevat je volledige teksten,
+            je zelfbeoordeling, de officiële rubric en een leesinstructie.
+          </p>
+          <div class="export-actions">
+            <button id="btn-download" class="btn primary" type="button">Download JSON</button>
+            <button id="btn-copy" class="btn" type="button">Kopieer JSON</button>
+          </div>
+          <pre id="json-preview" class="json-preview" aria-label="JSONvoorbeeld"></pre>
+        </section>
+
+        <div class="result-actions">
+          <button id="btn-edit-scores" class="btn" type="button">Scores aanpassen</button>
+          <button id="btn-retry" class="btn primary big" type="button">Nieuw examen</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Alleen zichtbaar bij printen: het papieren antwoordenblad. -->
+    <section id="print-sheet" class="print-sheet" aria-hidden="true"></section>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      Oefentool, geen officieel DUO-examen. Gebaseerd op de examenvorm van
+      inburgeren.nl (4 opdrachten, 40 minuten, op papier) en de officiële
+      beoordelingsmodellen Schrijven A2 van DUO. Bronnen staan in README.md.
+    </p>
+  </footer>
+
+  <script src="ai.js"></script>
+  <script src="tasks.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

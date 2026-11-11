@@ -1,0 +1,13 @@
+# De Worker hoort niet in deze repo: hij deployt met wrangler, niet met Pages.
+# wrangler.toml en .wrangler/ bevatten account-, KV- en Polar-id's.
+worker/
+
+# KNM heeft zijn eigen repo (lillelilje/knm-examensimulatie).
+knm/
+
+# Interne notities.
+TODO.md
+
+# OS / editor
+.DS_Store
+*~
