@@ -15,15 +15,18 @@ http://localhost:8000. Geen build, geen npm, geen framework.
 | Luisteren A2 | geen | nog niet gebouwd |
 | Spreken A2 | `spreken/` | alleen onderzoek (`README.md`) |
 
-Live: https://lillelilje.github.io/knm-examensimulatie/ (alleen KNM, uit de eigen repo).
+Live: https://lillelilje.github.io/examen-oefenen/ (portal + Lezen + Schrijven, uit deze
+repo). KNM staat op https://lillelilje.github.io/knm-examensimulatie/ en houdt zijn
+eigen repo.
 
 ## Terug naar de portal
 
-Elk examen heeft een witte bovenbalk met `← Alle examens`, een link naar `../`. Dat
-werkt op localhost en met `file://`. Let op: de losse Pages-deploy van KNM
-(`lillelilje.github.io/knm-examensimulatie`) heeft geen portal in de map erboven, dus
-daar komt die link op een 404 uit. Zet de portal op de Pages-root (of verander die ene
-`href`) zodra je alles onder één adres wilt hebben.
+Elk examen heeft een witte bovenbalk met `← Alle examens`.
+
+- `lezen/` en `schrijven/` linken naar `../`: de portal staat op de Pages-root van
+deze repo, dus dat werkt op localhost, met `file://` en live.
+- `knm/` staat in een eigen repo en dus op een eigen Pages-root, waar geen portal
+boven ligt. Daarom linkt die bovenbalk naar de absolute URL van de portal.
 
 ## Vormgeving delen
 
