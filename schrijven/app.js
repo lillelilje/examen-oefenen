@@ -1303,57 +1303,10 @@ async function copyLeeropdracht() {
 
 /* ── AI: licentie of eigen sleutel ────────────────────────────────── */
 /* Het transport staat in ../shared/ai.js. Hier alleen de bediening: welke
-   route, de kostenrem voor de eigen sleutel, en de statusregel. */
+   route en de statusregel. Een eigen sleutel heeft geen limiet: de gebruiker
+   betaalt DeepSeek zelf. */
 
 const DS_KEY = "schrijven-a2-deepseek-key";
-const DS_LOG = "schrijven-a2-deepseek-log";
-const DS_DAG = 24 * 60 * 60 * 1000;
-
-/* Lokaal = ruimere limieten. Overal elders is het bewust streng.
-   Let op: dit is een kostenrem in de browser, geen beveiliging. */
-function isLokaal() {
-  const host = location.hostname;
-  return (
-    location.protocol === "file:" ||
-    host === "" ||
-    host === "localhost" ||
-    host === "127.0.0.1" ||
-    host === "[::1]"
-  );
-}
-
-function dsLimiet() {
-  return isLokaal()
-    ? { perUur: 6, perDag: 30, gatSeconden: 15 }
-    : { perUur: 1, perDag: 3, gatSeconden: 600 };
-}
-
-function dsLog() {
-  try {
-    return JSON.parse(localStorage.getItem(DS_LOG) || "[]").filter(
-      (tijd) => typeof tijd === "number" && Date.now() - tijd < DS_DAG
-    );
-  } catch {
-    return [];
-  }
-}
-
-function dsControle() {
-  const limiet = dsLimiet();
-  const nu = Date.now();
-  const log = dsLog();
-  const laatste = log[log.length - 1] || 0;
-  const wacht = Math.max(0, Math.ceil((laatste + limiet.gatSeconden * 1000 - nu) / 1000));
-  const uur = log.filter((tijd) => nu - tijd < 60 * 60 * 1000).length;
-  const dag = log.length;
-
-  let reden = "";
-  if (wacht > 0) reden = `Wacht nog ${wacht} seconden voor de volgende aanvraag.`;
-  else if (uur >= limiet.perUur) reden = `Limiet bereikt: ${limiet.perUur} per uur.`;
-  else if (dag >= limiet.perDag) reden = `Limiet bereikt: ${limiet.perDag} per dag.`;
-
-  return { ok: !reden, reden, wacht, uur, dag, limiet };
-}
 
 function dsStatus(extra = "") {
   const status = $("ds-status");
@@ -1367,14 +1320,9 @@ function dsStatus(extra = "") {
     return;
   }
 
-  const { limiet, uur, dag, wacht } = dsControle();
-  const waar = isLokaal() ? "lokaal" : "niet lokaal";
-  const delen = [
-    `${waar}: max ${limiet.perUur}/uur en ${limiet.perDag}/dag, ${limiet.gatSeconden}s tussen aanvragen`,
-    `gebruikt: ${uur} dit uur, ${dag} vandaag`,
-  ];
-  if (wacht > 0) delen.push(`nog ${wacht}s wachten`);
-  status.textContent = [...delen, extra].filter(Boolean).join(" · ");
+  status.textContent = ["eigen DeepSeek-sleutel · geen limiet", extra]
+    .filter(Boolean)
+    .join(" · ");
 }
 
 async function dsNakijken() {
@@ -1386,21 +1334,6 @@ async function dsNakijken() {
   if (!metTegoed && !sleutel) {
     status.textContent = "Vul een licentiesleutel of je eigen DeepSeek-sleutel in.";
     return;
-  }
-
-  // Een licentie heeft zijn tegoed aan de serverkant; deze browserrem geldt
-  // alleen voor de eigen sleutel.
-  if (!metTegoed) {
-    const controle = dsControle();
-    if (!controle.ok) {
-      status.textContent = controle.reden;
-      return;
-    }
-
-    // Nu vastleggen: een mislukte poging kost ook een aanvraag.
-    const log = dsLog();
-    log.push(Date.now());
-    localStorage.setItem(DS_LOG, JSON.stringify(log));
   }
 
   knop.disabled = true;
@@ -1442,17 +1375,6 @@ async function maakPlan() {
   if (!metTegoed && !sleutel) {
     status.textContent = "Vul een licentiesleutel of je eigen DeepSeek-sleutel in.";
     return;
-  }
-
-  if (!metTegoed) {
-    const controle = dsControle();
-    if (!controle.ok) {
-      status.textContent = controle.reden;
-      return;
-    }
-    const log = dsLog();
-    log.push(Date.now());
-    localStorage.setItem(DS_LOG, JSON.stringify(log));
   }
 
   knop.disabled = true;

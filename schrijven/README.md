@@ -229,21 +229,13 @@ geen sleutel in deze repo en er is geen server die hem ziet. Met **Vergeet sleut
 verwijder je hem. Kosten per examen: ongeveer 3.500 tokens in en 300 uit, dus minder
 dan een cent.
 
-**Limieten.** Met een licentie geldt het tegoed van de Worker (40 eenheden per maand);
-de browserrem hieronder geldt dan niet. Voor de eigen sleutel remt de app zichzelf af,
-zodat een fout of een dubbelklik geen tientallen aanvragen kost:
+**Limieten.** Met een licentie geldt het tegoed van de Worker (40 eenheden per maand).
+Met je eigen sleutel geldt **geen limiet**: je betaalt DeepSeek zelf, dus de app remt
+niets af. Een dubbelklik kost wel een tweede aanvraag; de knop staat daarom uit zolang
+een aanvraag loopt.
 
-| Waar draait de site? | Per uur | Per dag | Minimaal tussen twee aanvragen |
-|---|---|---|---|
-| Lokaal (`localhost`, `127.0.0.1`, `file://`) | 6 | 30 | 15 seconden |
-| Overal elders (bijv. GitHub Pages) | **1** | **3** | **10 minuten** |
-
-De teller staat in `localStorage` en de knop weigert daarna met een melding en een
-aftelling. Een mislukte aanvraag telt ook mee.
-
-Dit is een **kostenrem, geen beveiliging**: iedereen kan `localStorage` wissen. De echte
-grens is dat elke gebruiker zijn eigen sleutel gebruikt. Zet dus nooit een sleutel in de
-site zelf.
+De echte grens is dat elke gebruiker zijn eigen sleutel gebruikt. Zet dus nooit een
+sleutel in de site zelf.
 
 **CORS.** DeepSeek stuurt `Access-Control-Allow-Origin` terug voor de oorsprong die
 meedoet, dus de browser mag rechtstreeks bellen. Getest vanaf `http://localhost:8000`.
@@ -492,5 +484,4 @@ auteursrechtelijk beschermd en zijn niet overgenomen: alleen de vorm is gebruikt
 - Namen en bedragen in de opdrachten zijn verzonnen voorbeelden.
 - DeepSeek-nakijken vraagt je eigen API-sleutel en een internetverbinding. Zonder sleutel
   werkt de rest van de site gewoon; gebruik dan de kopieer-en-plak-route.
-- De limieten zijn per browser en te omzeilen. Ze beschermen je portemonnee tegen
-  ongelukken, niet tegen iemand die kwaad wil.
+- Zonder licentie betaalt elke gebruiker zijn eigen DeepSeek-gebruik, zonder limiet.
