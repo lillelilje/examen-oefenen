@@ -119,7 +119,10 @@ const TYPES = {
   bericht: { naam: "Briefje / bericht", icon: "💬", profiel: "tekst" },
 };
 
-/* Vaste eisen per opdrachtsoort. De inhoudelijke eisen staan bij elke opdracht. */
+/* Vaste eisen per opdrachtsoort. De inhoudelijke eisen staan bij elke opdracht.
+   Op het echte examen staan aanhef en afsluiting al in de opdracht: je neemt ze
+   over en zet alleen je naam eronder. Een inleidende zin ("Ik hoop dat het goed
+   gaat") levert geen punt op en kost ruimte, dus die telt hier als eis. */
 const STRUCTUUR_EISEN = {
   formulier: [
     "Alle persoonlijke gegevens zijn ingevuld",
@@ -127,16 +130,21 @@ const STRUCTUUR_EISEN = {
     "De open vragen zijn met hele zinnen beantwoord",
   ],
   correspondentie: [
-    "Aanhef (Beste ...)",
-    "Afsluiting met een groet en uw naam",
+    "Aanhef uit de opdracht overgenomen (Beste ...)",
+    "Afsluiting met de groet uit de opdracht, en uw eigen naam",
+    "Geen inleidende zin: meteen het eerste punt van de opdracht",
     "Hele zinnen, geen losse woorden",
   ],
-  vrije_tekst: ["Minimaal 3 hele zinnen"],
+  vrije_tekst: [
+    "Minimaal 3 hele zinnen",
+    "Geen inleiding: meteen over het onderwerp",
+  ],
   bericht: [
-    "Aanhef die past bij de lezer",
+    "Aanhef uit de opdracht overgenomen",
     // Niet elke briefje-afsluiting is een groet: bericht-05 en bericht-12
     // sluiten met een zin ("Bel me als er iets is!").
     "Afsluiting met de groet of laatste zin uit de opdracht, en uw naam",
+    "Geen inleidende zin: meteen het eerste punt van de opdracht",
     "Hele zinnen, geen losse woorden",
   ],
 };

@@ -108,6 +108,10 @@ de opdrachtteksten van de drie oefenexamens.
 
 **Altijd, elke opdracht**
 
+- [ ] De aanhef en de afsluiting staan **al in de opdracht**. Neem ze letterlijk over en zet
+      je eigen naam onder de groet. Verder niets.
+- [ ] **Geen inleidende zin.** Geen *Ik hoop dat het goed met u gaat*, geen *Ik schrijf u
+      deze brief omdat*. De eerste zin na de aanhef beantwoordt het eerste puntje.
 - [ ] De tekst is leesbaar (op papier: duidelijk handschrift, geen doorhalingen waardoor
       het onleesbaar wordt).
 - [ ] De tekst is in het **Nederlands**.
@@ -125,20 +129,23 @@ de opdrachtteksten van de drie oefenexamens.
 
 **E-mail / brief**
 
-- [ ] Aanhef die past bij de lezer: *Beste mevrouw Jansen,* / *Beste mevrouw/heer,* / *Hallo Farida,*
-- [ ] Afsluiting met een groet en je naam: *Met vriendelijke groet,* / *Groetjes,*
+- [ ] Aanhef overgenomen uit de opdracht: *Beste mevrouw Jansen,* / *Beste mevrouw/heer,* /
+      *Hallo Farida,*
+- [ ] Afsluiting met de groet uit de opdracht en je eigen naam: *Met vriendelijke groet,* /
+      *Groetjes, [je naam]*
 - [ ] Onderwerp past bij de inhoud.
-- [ ] Alle 3-4 gevraagde punten staan erin, in een logische volgorde.
+- [ ] Alle 3-4 gevraagde punten staan erin, één per zin, in de volgorde van de opdracht.
 - [ ] Je verzint zelf wat de opdracht van je vraagt (reden, datum, naam).
 
 **Korte tekst**
 
 - [ ] Minimaal **3 hele zinnen**.
+- [ ] Meteen over het onderwerp, zonder inleiding.
 - [ ] De drie hulpvragen zijn alle drie beantwoord.
 
 **Briefje / bericht**
 
-- [ ] Aanhef die past bij de lezer en afsluiting met een groet.
+- [ ] Aanhef uit de opdracht en afsluiting met de groet (of de laatste zin) plus je naam.
 - [ ] **Drie** dingen duidelijk genoemd, één per zin.
 - [ ] Duidelijk wie wat moet doen.
 
@@ -164,6 +171,21 @@ de opdrachtteksten van de drie oefenexamens.
    werkwoordsvormen (-t, -en, -te/-de), hoofdletters, punt aan het eind.
 10. **Oefen op papier.** Deze site laat je typen; het echte examen is met de hand. Je
     handschrift en je schrijftempo zijn een echt onderdeel van het risico.
+
+**Zo kort mag het zijn** — opdracht: u wilt buren helpen, zeg dat u wilt helpen, wat u
+kunt doen en wanneer.
+
+```
+Ik wil graag helpen!
+
+Ik kan goed met computers helpen.
+
+Ik heb tijd op zaterdag en zondag.
+```
+
+Drie zinnen, drie punten, nul inleiding. Dit is geen mager antwoord: zo hoort A2 te
+lezen. Wie hier *Ik hoop dat alles goed gaat met u en uw familie* boven zet, schrijft
+een zin waarin elk woord fout kan zijn en verdient er nul punten mee.
 
 **Veelgemaakte fouten om actief te checken**
 
@@ -309,9 +331,13 @@ criterium de som van de vier opdrachten.
 De knop **Kopieer LLM-opdracht** op het nakijkscherm maakt één tekst met:
 
 - de rol en het niveau: beoordelaar Schrijven A2, ERK A2, geen B1-complexiteit belonen;
+- dat de aanhef en de afsluiting al in de opdracht staan (overnemen + eigen naam) en dat
+  A2 kort hoort te zijn: één idee per zin, ongeveer 8 woorden, woorden uit de opdracht;
 - de examenvorm en het maximum van 37 punten;
 - de **acht scoringsregels**, waaronder "adequaatheid 0 → al het andere 0", "beoordeel
-  alleen wat er staat", "kort en correct verslaat lang en fout";
+  alleen wat er staat", "kort en correct verslaat lang en fout", en de uitleg dat de eis
+  *Geen inleidende zin* false is zodra de tekst opent met een zin die geen puntje
+  beantwoordt;
 - de volledige officiële rubric met alle score-omschrijvingen;
 - per opdracht: situatie, opdracht, gevraagde punten, eisen, jouw tekst, je metingen en
   welk profiel (formulier of tekst) met welke criteria;
@@ -481,6 +507,13 @@ auteursrechtelijk beschermd en zijn niet overgenomen: alleen de vorm is gebruikt
   examen vast en is niet openbaar.
 - De samenstelling is altijd 1 formulier + 3 teksten. Het echte examen kan twee e-mails
   hebben in plaats van een briefje; de criteria blijven gelijk.
+- De eis **Geen inleidende zin** is een oefenregel, geen officiële aftrek. DUO straft een
+  inleidende zin niet apart af; hij kost alleen ruimte en levert geen punt op. Hier telt
+  hij als eis, omdat een inleiding op A2 bijna altijd fouten bevat en toch nul punten
+  waard is.
+- De opmerking *de aanhef en afsluiting staan al in de opdracht* komt uit de praktijk van
+  de oefenexamens: daar staat de briefvorm al voorgedrukt. Bij een vrije opdracht hoort de
+  kandidaat zelf een aanhef te kiezen; die eis blijft dus staan.
 - Namen en bedragen in de opdrachten zijn verzonnen voorbeelden.
 - DeepSeek-nakijken vraagt je eigen API-sleutel en een internetverbinding. Zonder sleutel
   werkt de rest van de site gewoon; gebruik dan de kopieer-en-plak-route.
