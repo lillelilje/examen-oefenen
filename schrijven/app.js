@@ -116,7 +116,7 @@ function printInvul(taak) {
       ? `<p><b>Aan:</b> ${esc(taak.email.aan)}</p><p><b>Onderwerp:</b> ${esc(taak.email.onderwerp)}</p><p class="print-aanhef">${esc(taak.email.aanhef)}</p>`
       : taak.type === "bericht"
         ? `<p class="print-aanhef">${esc(taak.aanhef)}</p>`
-        : `<p class="print-hint">Optionele eerste zin: <b>${esc(taak.start)}</b></p>`;
+        : `<p class="print-hint"><b>${esc(taak.start)}</b></p>`;
   const slot =
     taak.type === "correspondentie"
       ? `<p class="print-afsluiting">${esc(taak.email.afsluiting)} [uw naam]</p>`
@@ -361,7 +361,7 @@ function renderTask() {
     const hint =
       taak.type === "correspondentie" || taak.type === "bericht"
         ? "Aanhef en groet staan al klaar in je tekstvak. Zet je eigen naam onder de groet en begin meteen met het eerste punt: geen inleidende zin."
-        : `Begin meteen over het onderwerp, bijvoorbeeld: <strong>${esc(taak.start)}</strong>`;
+        : "Typ je tekst hieronder. Geen inleiding: meteen over het onderwerp.";
     els.taskInput.innerHTML = `
       ${taak.type === "correspondentie"
         ? `<div class="mail-head">
@@ -369,6 +369,7 @@ function renderTask() {
              <span><b>Onderwerp:</b> ${esc(taak.email.onderwerp)}</span>
            </div>`
         : ""}
+      ${taak.type === "vrije_tekst" ? `<p class="write-lead"><strong>${esc(taak.start)}</strong></p>` : ""}
       <p class="write-hint">${hint}</p>
       <textarea id="answer-text" class="write-box" rows="10"
         aria-label="Uw antwoord op deze opdracht"></textarea>`;
@@ -755,7 +756,9 @@ function structuurVan(taak) {
     };
   }
   if (taak.type === "bericht") return { aanhef: taak.aanhef, afsluiting: taak.afsluiting };
-  if (taak.type === "vrije_tekst") return { optionele_startzin: taak.start };
+  // De gedrukte regel staat boven het tekstvak, niet erin: de kandidaat typt
+  // alleen de tekst eronder.
+  if (taak.type === "vrije_tekst") return { kop_boven_tekstvak: taak.start };
   return null;
 }
 
@@ -926,6 +929,7 @@ const LLM_KOP = [
   "- Inventing names, addresses and dates is required by the tasks. That is not an error.",
   "- The aanhef and the afsluiting are already in the answer box. The candidate does not write them; they only type the content and add their own name under the closing. The eis about the aanhef and the greeting is only false when the candidate deleted them or left no name.",
   "- A2 is short: one idea per sentence, about 8 words, words copied from the task. Long sentences with subordinate clauses are not better writing at this level, they are more places to lose points. Never reward complexity and never ask for it.",
+  "- A korte tekst (wijkkrant) has one printed line above the answer box, like 'Dit is mijn tekst over mijn weekend:'. That line is the heading of the task, not the first sentence of the answer. Do not require it in the text and do not count it as a sentence.",
   "",
   "## Scoring rules (strict)",
   "1. Give every criterion an integer inside its range. Never leave one out.",

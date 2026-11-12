@@ -1289,6 +1289,14 @@ h1 span {
   color: var(--ink-2);
 }
 
+/* De regel die op het examen boven het tekstvak staat, zoals
+   "Dit is mijn tekst over mijn weekend:". Hij hoort niet in het vak. */
+.write-lead {
+  margin: 0 0 4px;
+  font-size: 15px;
+  color: var(--ink);
+}
+
 /* ruled paper: the one moment of the product's own world */
 .write-box {
   min-height: 224px;

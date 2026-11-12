@@ -140,6 +140,8 @@ de opdrachtteksten van de drie oefenexamens.
 
 - [ ] Minimaal **3 hele zinnen**.
 - [ ] Meteen over het onderwerp, zonder inleiding.
+- [ ] De gedrukte regel boven het vak (*Dit is mijn tekst over mijn weekend:*) hoort
+      **niet** in je tekst. Die staat er al; jij schrijft de zinnen eronder.
 - [ ] De drie hulpvragen zijn alle drie beantwoord.
 
 **Briefje / bericht**
