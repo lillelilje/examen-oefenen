@@ -79,7 +79,7 @@ window.AI = (() => {
       "",
       "## Constraints",
       "- A2 only. Short sentences, about 8 words, one idea per sentence. No B1 grammar, no stacking subordinate clauses.",
-      "- The exam gives the aanhef and the afsluiting; the candidate copies them and adds their name. No introduction, no filler: the first sentence answers the first bullet point.",
+      "- The aanhef and the afsluiting are already in the answer box; I only add my name. No introduction, no filler: the first sentence answers the first bullet point.",
       "- Every corrected sentence must be at most as long as what I wrote. Simpler is better; a word I cannot spell is a word I should not use.",
       "- Explain in English. Every Dutch example must be correct Dutch.",
       "- Be concrete: quote my text, then the fix.",

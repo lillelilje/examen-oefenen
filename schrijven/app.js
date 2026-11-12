@@ -167,7 +167,7 @@ function startExam(vast = false, gekozen = null, papier = false) {
   notities = {};
   scoreBron = "zelf";
   examen.forEach((taak) => {
-    antwoorden[taak.id] = taak.type === "formulier" ? {} : "";
+    antwoorden[taak.id] = taak.type === "formulier" ? {} : beginTekst(taak);
     eisen[taak.id] = eisenVoor(taak).map(() => false);
     scores[taak.id] = {};
   });
@@ -220,27 +220,39 @@ function tekstenMetRegeleinden() {
     .join("\n\n");
 }
 
+/* Op het examen staat de briefvorm al in het tekstvak: je schrijft alleen de
+   inhoud en je naam onder de groet. Zo doen we het hier ook. */
+function beginTekst(taak) {
+  const vorm = structuurVan(taak);
+  return vorm?.aanhef ? `${vorm.aanhef}\n\n\n${vorm.afsluiting}` : "";
+}
+
 function isKlaar(taak) {
   if (taak.type === "formulier") {
     return taak.velden.every((veld) => String(antwoorden[taak.id][veld.label] || "").trim());
   }
-  return String(antwoorden[taak.id] || "").trim().length > 0;
+  // De aanhef en groet staan er al; die tellen niet als antwoord.
+  return tekstZonderGroet(String(antwoorden[taak.id] || ""), taak).trim().length > 0;
 }
 
 /* Groet en afsluiting horen niet bij de body. Zonder deze knip telt
-   "Noëlle" als derde zin en lijken woorden en zinnen te hoog. */
-function tekstZonderGroet(tekst) {
+   "Noëlle" als derde zin en lijken woorden en zinnen te hoog. De voorgedrukte
+   aanhef en groet uit de opdracht gaan er altijd uit, ook als de kandidaat ze
+   zelf anders schrijft. */
+function tekstZonderGroet(tekst, taak) {
   const regels = tekst.split(/\r?\n/);
   const groet = /^\s*(beste|geachte|hallo|hoi|lieve|dag)\b/i;
   const afsluiting =
-    /^\s*(met vriendelijke|groet|groetjes|hartelijke|tot ziens|tot volgende week|tot morgen|doei|liefs|alvast bedankt)/i;
+    /^\s*(met vriendelijke|groet|groetjes|groeten|hartelijke|tot |tot ziens|doei|liefs|alvast bedankt|bedankt|dank)/i;
+  const eigen = kaal(taak?.afsluiting || "");
+  const isAfsluiting = (regel) => (eigen && kaal(regel) === eigen) || afsluiting.test(regel);
   const eerste = regels.findIndex((regel) => groet.test(regel));
   if (eerste !== -1) {
     // Groet en eerste zin op één regel? Alleen de groet wegknippen.
     if (/[.!?]/.test(regels[eerste])) regels[eerste] = regels[eerste].replace(groet, "");
     else regels.splice(0, eerste + 1);
   }
-  const laatste = regels.findIndex((regel) => afsluiting.test(regel));
+  const laatste = regels.findIndex(isAfsluiting);
   if (laatste !== -1) regels.splice(laatste);
   return regels.join("\n");
 }
@@ -267,7 +279,7 @@ function metingen(taak) {
   }
   // Groet en afsluiting horen niet bij de body: niet bij de zinnen,
   // niet bij de woorden en niet bij de tekens.
-  const body = tekstZonderGroet(tekst);
+  const body = tekstZonderGroet(tekst, taak);
   const zinnen = body.split(/[.!?]+|\n{2,}/).filter((zin) => zin.trim().length > 1).length;
   return {
     woorden: body.split(/\s+/).filter(Boolean).length,
@@ -347,11 +359,9 @@ function renderTask() {
       .join("")}</div>`;
   } else {
     const hint =
-      taak.type === "correspondentie"
-        ? `Begin met: <strong>${esc(taak.email.aanhef)}</strong>. Eindig met: <strong>${esc(taak.email.afsluiting)} [uw naam]</strong>. Geen inleiding: meteen het eerste punt.`
-        : taak.type === "bericht"
-          ? `Begin met: <strong>${esc(taak.aanhef)}</strong>. Eindig met: <strong>${esc(taak.afsluiting)} [uw naam]</strong>. Geen inleiding: meteen het eerste punt.`
-          : `Optionele eerste zin: <strong>${esc(taak.start)}</strong>`;
+      taak.type === "correspondentie" || taak.type === "bericht"
+        ? "Aanhef en groet staan al klaar in je tekstvak. Zet je eigen naam onder de groet en begin meteen met het eerste punt: geen inleidende zin."
+        : `Begin meteen over het onderwerp, bijvoorbeeld: <strong>${esc(taak.start)}</strong>`;
     els.taskInput.innerHTML = `
       ${taak.type === "correspondentie"
         ? `<div class="mail-head">
@@ -363,6 +373,12 @@ function renderTask() {
       <textarea id="answer-text" class="write-box" rows="10"
         aria-label="Uw antwoord op deze opdracht"></textarea>`;
     $("answer-text").value = antwoord;
+    // Cursor meteen onder de aanhef, waar het antwoord begint.
+    const begin = beginTekst(taak);
+    if (begin && antwoord.startsWith(begin)) {
+      const plek = antwoord.indexOf("\n\n\n") + 3;
+      $("answer-text").setSelectionRange(plek, plek);
+    }
   }
 
   els.prev.disabled = current === 0;
@@ -908,14 +924,14 @@ const LLM_KOP = [
   "- For spelling, use beoordelingsmodel.criteria.spelling.scores_per_profiel[profiel]; the top-level scores is the text version.",
   "- The `eisen` list of a task is its task-specific requirement list. Check every item against the answer.",
   "- Inventing names, addresses and dates is required by the tasks. That is not an error.",
-  "- The aanhef and the afsluiting are already in the task. The candidate copies them and writes only their own name under the closing.",
+  "- The aanhef and the afsluiting are already in the answer box. The candidate does not write them; they only type the content and add their own name under the closing. The eis about the aanhef and the greeting is only false when the candidate deleted them or left no name.",
   "- A2 is short: one idea per sentence, about 8 words, words copied from the task. Long sentences with subordinate clauses are not better writing at this level, they are more places to lose points. Never reward complexity and never ask for it.",
   "",
   "## Scoring rules (strict)",
   "1. Give every criterion an integer inside its range. Never leave one out.",
   "2. adequaatheid = 0 only when the text is unreadable, empty, or clearly an answer to a different task. When adequaatheid is 0, all other criteria of that task must be 0.",
   "3. Anchor adequaatheid to the eisen list, not to your taste: all eisen true = 2 (acceptabel, the DUO baseline); 3 only when the text is also an excellent, not merely complete, answer; exactly one eisen false = at most 1; two or more false = 0 or 1.",
-  "4. Judge only what is written. If a greeting or closing is not in the text, it is not there.",
+  "4. Judge only what is written. The aanhef and the afsluiting are given, so they are not evidence of anything; if the candidate deleted them, or wrote no name, mark that eis false.",
   "5. Count every error exactly once, in one category. Spelling is how words are written (letters, d/t, -en, capitals, de/het, a misspelled verb form). Grammatica is sentence structure (word order, verb position, missing or wrong auxiliary, agreement across the sentence). Never deduct for the same mistake twice.",
   "6. A short correct answer beats a long incorrect one. Do not reward length.",
   "7. eisen: one JSON boolean per item, same length and order as in the task: true or false, never the strings \"true\" / \"false\". true only if it is really in the answer. The eis 'Geen inleidende zin' is false when the text opens with a sentence that answers no bullet point of the task (a wish, a how-are-you, an 'I am writing you this letter because').",
@@ -1176,10 +1192,10 @@ const LEER_KOP = [
   "Teach me the 20% that earns 80% of the points. Do not analyse for the sake of analysis.",
   "",
   "## How this exam scores, in one paragraph",
-  `${EXAM_SIZE} tasks, ${MAX_POINTS} points: one formulier (${RUBRIEK.formulier.max}) and ${EXAM_SIZE - 1} texts (${RUBRIEK.tekst.max} each). Every task is judged on task coverage first (adequaatheid). Adequaatheid 0 (unreadable, empty, or not an answer to this task) makes every other criterion 0 for that task, and missing one required point caps adequaatheid at 1, while all required points = 2 (acceptabel); 3 is only for an excellent text. So the cheapest points in this exam are: answer every bullet point, fill every form field, copy the greeting and the closing the task gives you, write your name under it, and skip the introduction. Language polish only pays after that.`,
+  `${EXAM_SIZE} tasks, ${MAX_POINTS} points: one formulier (${RUBRIEK.formulier.max}) and ${EXAM_SIZE - 1} texts (${RUBRIEK.tekst.max} each). Every task is judged on task coverage first (adequaatheid). Adequaatheid 0 (unreadable, empty, or not an answer to this task) makes every other criterion 0 for that task, and missing one required point caps adequaatheid at 1, while all required points = 2 (acceptabel); 3 is only for an excellent text. So the cheapest points in this exam are: answer every bullet point, fill every form field, and keep the greeting that is already in the box with your name under it. Language polish only pays after that.`,
   "",
   "## A2 means short",
-  "The exam tasks already contain the aanhef and the afsluiting. The candidate copies them and adds their own name; nothing else goes before the first bullet point. Reward the shortest text that answers every point: sentences of about 8 words, one idea per sentence, verbs and nouns copied from the task. Treat every longer alternative as a risk, not as progress. A candidate who knows a word but not its spelling should use the simpler word.",
+  "The aanhef and the afsluiting are already in the answer box: I only add my name. I should not add an introduction. Reward the shortest text that answers every point: sentences of about 8 words, one idea per sentence, verbs and nouns taken from the task. Treat every longer alternative as a risk, not as progress. A candidate who knows a word but not its spelling should use the simpler word.",
   "",
   "## What to produce, in this order",
   "1. **Ranked fixes.** First check each score in `prioriteit` against my text. If you disagree, use your own score for the ranking, not `prioriteit`. Then give up to 3 changes that would earn me the most points next attempt, using my actual errors. If I am already at `a2_baseline`, say so and stop. `algemeen_advies` is generic: do not copy it. Scores above `a2_baseline` are polish, not errors. For each fix: the rule in one sentence, why a rater deducts, and how many points it is worth.",

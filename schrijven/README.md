@@ -108,8 +108,8 @@ de opdrachtteksten van de drie oefenexamens.
 
 **Altijd, elke opdracht**
 
-- [ ] De aanhef en de afsluiting staan **al in de opdracht**. Neem ze letterlijk over en zet
-      je eigen naam onder de groet. Verder niets.
+- [ ] De aanhef en de groet staan **al in je tekstvak**. Je schrijft alleen de inhoud en
+      zet je eigen naam onder de groet. Niets anders.
 - [ ] **Geen inleidende zin.** Geen *Ik hoop dat het goed met u gaat*, geen *Ik schrijf u
       deze brief omdat*. De eerste zin na de aanhef beantwoordt het eerste puntje.
 - [ ] De tekst is leesbaar (op papier: duidelijk handschrift, geen doorhalingen waardoor
@@ -129,10 +129,9 @@ de opdrachtteksten van de drie oefenexamens.
 
 **E-mail / brief**
 
-- [ ] Aanhef overgenomen uit de opdracht: *Beste mevrouw Jansen,* / *Beste mevrouw/heer,* /
+- [ ] Aanhef uit de opdracht staat er nog: *Beste mevrouw Jansen,* / *Beste mevrouw/heer,* /
       *Hallo Farida,*
-- [ ] Afsluiting met de groet uit de opdracht en je eigen naam: *Met vriendelijke groet,* /
-      *Groetjes, [je naam]*
+- [ ] Onder de groet staat jouw eigen naam: *Met vriendelijke groet, [je naam]*
 - [ ] Onderwerp past bij de inhoud.
 - [ ] Alle 3-4 gevraagde punten staan erin, één per zin, in de volgorde van de opdracht.
 - [ ] Je verzint zelf wat de opdracht van je vraagt (reden, datum, naam).
@@ -145,7 +144,7 @@ de opdrachtteksten van de drie oefenexamens.
 
 **Briefje / bericht**
 
-- [ ] Aanhef uit de opdracht en afsluiting met de groet (of de laatste zin) plus je naam.
+- [ ] Aanhef en groet staan er nog, met je eigen naam eronder.
 - [ ] **Drie** dingen duidelijk genoemd, één per zin.
 - [ ] Duidelijk wie wat moet doen.
 
@@ -331,7 +330,7 @@ criterium de som van de vier opdrachten.
 De knop **Kopieer LLM-opdracht** op het nakijkscherm maakt één tekst met:
 
 - de rol en het niveau: beoordelaar Schrijven A2, ERK A2, geen B1-complexiteit belonen;
-- dat de aanhef en de afsluiting al in de opdracht staan (overnemen + eigen naam) en dat
+- dat de aanhef en de groet al in het tekstvak staan (alleen je naam eronder) en dat
   A2 kort hoort te zijn: één idee per zin, ongeveer 8 woorden, woorden uit de opdracht;
 - de examenvorm en het maximum van 37 punten;
 - de **acht scoringsregels**, waaronder "adequaatheid 0 → al het andere 0", "beoordeel
@@ -511,9 +510,8 @@ auteursrechtelijk beschermd en zijn niet overgenomen: alleen de vorm is gebruikt
   inleidende zin niet apart af; hij kost alleen ruimte en levert geen punt op. Hier telt
   hij als eis, omdat een inleiding op A2 bijna altijd fouten bevat en toch nul punten
   waard is.
-- De opmerking *de aanhef en afsluiting staan al in de opdracht* komt uit de praktijk van
-  de oefenexamens: daar staat de briefvorm al voorgedrukt. Bij een vrije opdracht hoort de
-  kandidaat zelf een aanhef te kiezen; die eis blijft dus staan.
+- De aanhef en de groet worden voorgedrukt in het tekstvak, net als op het examen. De
+  kandidaat schrijft alleen de inhoud en zijn naam. Wie ze weghaalt, verliest de eis.
 - Namen en bedragen in de opdrachten zijn verzonnen voorbeelden.
 - DeepSeek-nakijken vraagt je eigen API-sleutel en een internetverbinding. Zonder sleutel
   werkt de rest van de site gewoon; gebruik dan de kopieer-en-plak-route.
